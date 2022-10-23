@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2022/10/20 17:51:34 by minabe           ###   ########.fr       */
+/*   Updated: 2022/10/21 15:53:37 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void	recieve_bit(int signal);
 
 int	main(void)
 {
-	pid_t				my_pid;
-	struct sigaction	sa;
+	pid_t	my_pid;
 
 	init_char();
 	my_pid = getpid();

@@ -3,23 +3,20 @@ SERVER = server
 CLIENT = client
 
 CC = cc
-INCDIR = ./include
 UTILSDIR = ./utils
-BONUSDIR = ./bonus
 
-CFLAGS = -Wall -Wextra -Werror $(addprefix -I,$(INC))
+CFLAGS = -Wall -Wextra -Werror
 
-INC = $(shell find $(INCDIR) -name "*.h" -type f | xargs)
+INC = ./include/minitalk.h
+B_INC = ./include/minitalk_bonus.h
 UTILSINC = $(shell find $(UTILSDIR) -name "*.h" -type f | xargs)
 SERVER_SRC = ./src/server.c
 CLIENT_SRC = ./src/client.c
 UTILS = $(shell find $(UTILSDIR) -name "*.c" -type f | xargs)
 LIB = ./utils/libftprintf.a
-B_SRCS = $(shell find $(BONUSDIR) -name "*_bonus.c" -type f | xargs)
 
 SERVER_OBJ = $(SERVER_SRC:%.c=%.o)
 CLIENT_OBJ = $(CLIENT_SRC:%.c=%.o)
-B_OBJS = $(B_SRCS:%.c=%.o)
 
 all: $(NAME)
 
@@ -27,17 +24,14 @@ $(NAME): $(SERVER) $(CLIENT)
 
 $(SERVER): $(SERVER_OBJ)
 		$(MAKE) -C ./utils
-		$(CC) $(CFLAGS) $(SERVER_SRC) $(LIB) -o $(SERVER)
+		$(CC) $(CFLAGS) $(addprefix -I,$(INC)) $(SERVER_SRC) $(LIB) -o $(SERVER)
 
 $(CLIENT): $(CLIENT_OBJ)
 		$(MAKE) -C ./utils
-		$(CC) $(CFLAGS) $(CLIENT_SRC) $(LIB) -o $(CLIENT)
-
-bonus:
-		@make all WITH_BONUS=1
+		$(CC) $(CFLAGS) $(addprefix -I,$(INC)) $(CLIENT_SRC) $(LIB) -o $(CLIENT)
 
 clean:
-		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) $(B_OBJS) $(UTILS_OBJ)
+		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) $(B_SERVER_OBJ) $(B_CLIENT_OBJ) $(UTILS_OBJ)
 
 fclean: clean
 		$(RM) $(SERVER) $(CLIENT)
