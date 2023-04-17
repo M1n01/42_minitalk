@@ -2,7 +2,8 @@ a.out
 .vscode
 .DS_Store
 main.c
-*.o
+*/*.o
+*/*/*.o
 server
 client
 *.a

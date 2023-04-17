@@ -17,6 +17,7 @@ LIB = ./utils/libftprintf.a
 
 SERVER_OBJ = $(SERVER_SRC:%.c=%.o)
 CLIENT_OBJ = $(CLIENT_SRC:%.c=%.o)
+UTILS_OBJ = $(UTILS:%.c=%.o)
 
 all: $(NAME)
 
