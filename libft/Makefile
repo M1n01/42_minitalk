@@ -1,10 +1,10 @@
-NAME = libftprintf.a
+NAME = libft.a
 
 CC = cc
-INCDIR = -I./ft_printf  -I./libft
+INCDIR = -I./ft_printf  -I./
 CFLAGS = -Wall -Wextra -Werror $(INCDIR)
 
-SRCDIR = ./ft_printf ./libft
+SRCDIR = ./ft_printf ./
 
 SRCS = $(shell find $(SRCDIR) -name "*.c" -type f | xargs)
 

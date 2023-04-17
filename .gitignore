@@ -3,7 +3,8 @@ a.out
 .DS_Store
 main.c
 */*.o
-*/*/*.o
+libft/*.o
+libft/ft_printf/*.o
 server
 client
 *.a

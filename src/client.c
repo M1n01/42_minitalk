@@ -6,13 +6,13 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2022/10/20 16:25:37 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/17 21:58:34 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
-#include "../utils/libft/libft.h"
-#include "../utils/ft_printf/ft_printf.h"
+#include "../libft/libft.h"
+#include "../libft/ft_printf/ft_printf.h"
 
 static void	send_msg(pid_t my_pid, char *msg);
 static void	error(char *str);

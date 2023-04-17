@@ -6,13 +6,13 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2022/10/21 15:53:37 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/17 21:58:46 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
-#include "../utils/libft/libft.h"
-#include "../utils/ft_printf/ft_printf.h"
+#include "../libft/libft.h"
+#include "../libft/ft_printf/ft_printf.h"
 
 t_char	g_char;
 
