@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/17 21:58:46 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/18 16:51:09 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(void)
 
 static void	init_char(void)
 {
-	g_char.count = 0;
+	g_char.current_bit = 0;
 	g_char.parts = 0;
 	return ;
 }
@@ -43,13 +43,12 @@ static void	init_char(void)
 static void	recieve_bit(int signum)
 {
 	if (signum == SIGUSR1)
-		g_char.parts += (0b00000001 << g_char.count);
-	if (g_char.count == 7)
+		g_char.parts |= 1 << g_char.current_bit;
+	g_char.current_bit++;
+	if (g_char.current_bit == 8)
 	{
-		ft_printf("%c", g_char.parts);
+		ft_putchar_fd(g_char.parts, 1);
 		init_char();
 		return ;
 	}
-	g_char.count++;
-	return ;
 }

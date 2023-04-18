@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/17 21:58:34 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/18 16:53:20 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char *av[])
 
 	if (ac != 3)
 	{
-		ft_printf("usage: ./client [server-pid] [message]");
+		ft_printf("Usage: ./client [server-pid] [message]");
 		exit(EX_USAGE);
 	}
 	my_pid = ft_atoi(av[1]);
@@ -31,27 +31,34 @@ int	main(int ac, char *av[])
 	return (0);
 }
 
+static void	send_char(pid_t my_pid, char c)
+{
+	size_t	current_bit;
+	int		status;
+
+	current_bit = 0;
+	while (current_bit < 8)
+	{
+		if (c & (1 << current_bit))
+			status = kill(my_pid, SIGUSR1);
+		else
+			status = kill(my_pid, SIGUSR2);
+		if (status == -1)
+			error("Invalid PID.");
+		usleep(200);
+		current_bit++;
+	}
+	return ;
+}
+
 static void	send_msg(pid_t my_pid, char *msg)
 {
 	size_t	i;
-	size_t	count;
-	int		status;
 
 	i = 0;
 	while (msg[i] != '\0')
 	{
-		count = 0;
-		while (count < 8)
-		{
-			if ((msg[i] >> count) & 0b00000001)
-				status = kill(my_pid, SIGUSR1);
-			else
-				status = kill(my_pid, SIGUSR2);
-			if (status == -1)
-				error("Invalid PID.");
-			count++;
-			usleep(500);
-		}
+		send_char(my_pid, msg[i]);
 		i++;
 	}
 	return ;

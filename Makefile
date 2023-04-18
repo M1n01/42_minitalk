@@ -3,12 +3,11 @@ SERVER = server
 CLIENT = client
 
 CC = cc
-UTILSDIR = ./utils
+UTILSDIR = ./libft
 
 CFLAGS = -Wall -Wextra -Werror
 
 INC = ./include/minitalk.h
-B_INC = ./include/minitalk_bonus.h
 UTILSINC = $(shell find $(UTILSDIR) -name "*.h" -type f | xargs)
 SERVER_SRC = ./src/server.c
 CLIENT_SRC = ./src/client.c
