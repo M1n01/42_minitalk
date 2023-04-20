@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 14:47:00 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 19:56:12 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static void	init_char(void)
 	return ;
 }
 
-static void	recieve_bit(int signum)
+static void	receive_bit(int signum, siginfo_t *info, void *context)
 {
+	(void)context;
 	if (signum == SIGUSR1)
 		g_char.parts |= 1 << g_char.current_bit;
 	g_char.current_bit++;
@@ -42,15 +43,24 @@ static void	recieve_bit(int signum)
 	{
 		ft_putchar_fd(g_char.parts, 1);
 		init_char();
-		return ;
 	}
+	kill(info->si_pid, SIGUSR1);
+	return ;
 }
 
 static void	receive_msg(void)
 {
+	struct sigaction	s_sa;
+
 	init_char();
-	signal(SIGUSR1, recieve_bit);
-	signal(SIGUSR2, recieve_bit);
+	ft_bzero(&s_sa, sizeof(struct sigaction));
+	s_sa.sa_sigaction = receive_bit;
+	sigemptyset(&s_sa.sa_mask);
+	s_sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &s_sa, NULL);
+	sigaction(SIGUSR2, &s_sa, NULL);
+	// signal(SIGUSR1, receive_bit);
+	// signal(SIGUSR2, receive_bit);
 	while (1)
 		pause();
 }

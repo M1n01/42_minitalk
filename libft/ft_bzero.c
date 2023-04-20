@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 15:14:49 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 19:29:37 by minabe           ###   ########.fr       */
+/*   Created: 2022/04/05 14:59:18 by minabe            #+#    #+#             */
+/*   Updated: 2022/06/10 14:18:41 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		ft_atoi(const char *str);
-int		ft_isdigit(int c);
-void	ft_putchar_fd(char c, int fd);
-void	*ft_memset(void *buf, int ch, size_t n);
-void	ft_bzero(void *s, size_t n);
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
 
-#endif
+	str = (char *)s;
+	ft_memset(str, 0, n);
+	return ;
+}

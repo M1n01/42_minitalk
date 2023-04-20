@@ -6,13 +6,15 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 14:44:45 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 19:58:08 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 #include "../libft/libft.h"
 #include "../libft/ft_printf/ft_printf.h"
+
+static int	g_ack_received;
 
 static void	send_msg(pid_t my_pid, char *msg);
 static void	error(char *str);
@@ -31,6 +33,13 @@ int	main(int ac, char *av[])
 	return (0);
 }
 
+static void handle_ack(int signum)
+{
+	(void)signum;
+	g_ack_received = 1;
+	return ;
+}
+
 static void	send_char(pid_t my_pid, char c)
 {
 	unsigned char	uc;
@@ -47,7 +56,10 @@ static void	send_char(pid_t my_pid, char c)
 			status = kill(my_pid, SIGUSR2);
 		if (status == -1)
 			error("Invalid PID.");
-		usleep(500);
+		g_ack_received = 0;
+		while (!g_ack_received)
+			pause();
+		usleep(1);
 		current_bit++;
 	}
 	return ;
@@ -56,7 +68,12 @@ static void	send_char(pid_t my_pid, char c)
 static void	send_msg(pid_t my_pid, char *msg)
 {
 	size_t	i;
+	struct sigaction	s_sa;
 
+	sigemptyset(&s_sa.sa_mask);
+	s_sa.sa_handler = handle_ack;
+	s_sa.sa_flags = 0;
+	sigaction(SIGUSR1, &s_sa, NULL);
 	i = 0;
 	while (msg[i] != '\0')
 	{
