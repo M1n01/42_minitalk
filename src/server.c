@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/18 16:51:09 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:47:00 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,12 @@
 t_char	g_char;
 
 static void	init_char(void);
-static void	recieve_bit(int signal);
+static void	receive_msg(void);
 
 int	main(void)
 {
-	pid_t	my_pid;
-
-	init_char();
-	my_pid = getpid();
-	ft_printf("%d\n", my_pid);
-	signal(SIGUSR1, recieve_bit);
-	signal(SIGUSR2, recieve_bit);
-	while (1)
-		pause();
+	ft_printf("%d\n", getpid());
+	receive_msg();
 	return (0);
 }
 
@@ -51,4 +44,13 @@ static void	recieve_bit(int signum)
 		init_char();
 		return ;
 	}
+}
+
+static void	receive_msg(void)
+{
+	init_char();
+	signal(SIGUSR1, recieve_bit);
+	signal(SIGUSR2, recieve_bit);
+	while (1)
+		pause();
 }

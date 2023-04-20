@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/18 16:53:20 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 14:44:45 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,21 @@ int	main(int ac, char *av[])
 
 static void	send_char(pid_t my_pid, char c)
 {
-	size_t	current_bit;
-	int		status;
+	unsigned char	uc;
+	size_t			current_bit;
+	int				status;
 
+	uc = (unsigned char)c;
 	current_bit = 0;
 	while (current_bit < 8)
 	{
-		if (c & (1 << current_bit))
+		if (uc & (1 << current_bit))
 			status = kill(my_pid, SIGUSR1);
 		else
 			status = kill(my_pid, SIGUSR2);
 		if (status == -1)
 			error("Invalid PID.");
-		usleep(200);
+		usleep(500);
 		current_bit++;
 	}
 	return ;
