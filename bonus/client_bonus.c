@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 23:11:34 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 23:12:30 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 #include "../libft/libft.h"
 #include "../libft/ft_printf/ft_printf.h"
+
+static int	g_ack;
 
 static void	send_msg(pid_t my_pid, char *msg);
 static void	error(char *str);
@@ -40,22 +42,37 @@ static void	send_char(pid_t my_pid, char c)
 	current_bit = 0;
 	while (current_bit < 8)
 	{
-		usleep(100);
+		usleep(10);
 		if (uc & (1 << current_bit))
 			status = kill(my_pid, SIGUSR1);
 		else
 			status = kill(my_pid, SIGUSR2);
 		if (status == -1)
 			error("Invalid PID.");
+		g_ack = 0;
+		while (g_ack == 0)
+			pause();
 		current_bit++;
 	}
 	return ;
 }
 
+static void	receive_ack(int signum)
+{
+	(void)signum;
+	g_ack = 1;
+	return ;
+}
+
 static void	send_msg(pid_t my_pid, char *msg)
 {
-	size_t	i;
+	size_t				i;
+	struct sigaction	s_sa;
 
+	ft_bzero(&s_sa, sizeof(struct sigaction));
+	s_sa.sa_handler = receive_ack;
+	if (signal(SIGUSR1, receive_ack) == SIG_ERR)
+		error("signal error");
 	i = 0;
 	while (msg[i] != '\0')
 	{

@@ -3,36 +3,44 @@ SERVER = server
 CLIENT = client
 
 CC = cc
-UTILSDIR = ./libft
-
 CFLAGS = -Wall -Wextra -Werror
 
-INC = ./include/minitalk.h
-UTILSINC = $(shell find $(UTILSDIR) -name "*.h" -type f | xargs)
-SERVER_SRC = ./src/server.c
-CLIENT_SRC = ./src/client.c
-UTILS = $(shell find $(UTILSDIR) -name "*.c" -type f | xargs)
+LIBFTDIR = ./libft
 LIB = ./libft/libft.a
+LIBFTINC = $(shell find $(LIBFTDIR) -name "*.h" -type f | xargs)
+LIBFT = $(shell find $(LIBFTDIR) -name "*.c" -type f | xargs)
 
+INC = ./include/minitalk.h
+
+SERVER_SRC = ./src/server.c
 SERVER_OBJ = $(SERVER_SRC:%.c=%.o)
+
+CLIENT_SRC = ./src/client.c
 CLIENT_OBJ = $(CLIENT_SRC:%.c=%.o)
-UTILS_OBJ = $(UTILS:%.c=%.o)
+
+ifdef WITH_BONUS
+	SERVER_SRC = ./bonus/server_bonus.c
+	CLIENT_SRC = ./bonus/client_bonus.c
+endif
 
 all: $(NAME)
 
 $(NAME): $(SERVER) $(CLIENT)
 
+bonus:
+		$(MAKE) WITH_BONUS=1
+
 $(SERVER): $(SERVER_OBJ)
-		$(MAKE) -C ./libft
+		$(MAKE) -C $(LIBFTDIR)
 		$(CC) $(CFLAGS) $(addprefix -I,$(INC)) $(SERVER_SRC) $(LIB) -o $(SERVER)
 
 $(CLIENT): $(CLIENT_OBJ)
-		$(MAKE) -C ./libft
+		$(MAKE) -C $(LIBFTDIR)
 		$(CC) $(CFLAGS) $(addprefix -I,$(INC)) $(CLIENT_SRC) $(LIB) -o $(CLIENT)
 
 clean:
-		$(MAKE) clean -C ./libft
-		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) $(B_SERVER_OBJ) $(B_CLIENT_OBJ) $(UTILS_OBJ)
+		$(MAKE) clean -C $(LIBFTDIR)
+		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) $(B_SERVER_OBJ) $(B_CLIENT_OBJ)
 
 fclean: clean
 		$(RM) $(SERVER) $(CLIENT)
@@ -43,7 +51,7 @@ debug: CFLAGS += -g -fsanitize=address,leak
 debug: re
 
 norm:
-		@norminette -R CheckDefine $(INC) $(UTILSINC)
-		@norminette -R CheckForbiddenSourceHeader $(SERVER_SRC) $(CLIENT_SRC) $(UTILS)
+		@norminette -R CheckDefine $(INC) $(LIBFTINC)
+		@norminette -R CheckForbiddenSourceHeader $(SERVER_SRC) $(CLIENT_SRC) ./bonus/server_bonus.c ./bonus/client_bonus.c
 
 .PHONY: all clean fclean re bonus norm debug server client

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 23:10:51 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 23:10:35 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static void	init_char(void)
 	return ;
 }
 
-static void	receive_bit(int signum)
+static void	receive_bit(int signum, siginfo_t *info, void *context)
 {
+	(void)context;
 	if (signum == SIGUSR1)
 		g_char.parts |= 1 << g_char.current_bit;
 	else if (signum == SIGUSR2)
@@ -45,6 +46,11 @@ static void	receive_bit(int signum)
 		ft_putchar_fd(g_char.parts, 1);
 		init_char();
 	}
+	usleep(10);
+	if (info->si_pid != 0)
+		kill(info->si_pid, SIGUSR1);
+	else
+		ft_printf("pid is 0\n");
 	return ;
 }
 
@@ -54,7 +60,8 @@ static void	receive_msg(void)
 
 	init_char();
 	ft_bzero(&s_sa, sizeof(struct sigaction));
-	s_sa.sa_handler = receive_bit;
+	s_sa.sa_flags = SA_SIGINFO;
+	s_sa.sa_sigaction = receive_bit;
 	sigaddset(&s_sa.sa_mask, SIGUSR1);
 	sigaddset(&s_sa.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &s_sa, NULL) == -1)
