@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 19:58:08 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 20:09:19 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int ac, char *av[])
 		exit(EX_USAGE);
 	}
 	my_pid = ft_atoi(av[1]);
+	if (my_pid == -1)
+		exit(1);
 	send_msg(my_pid, av[2]);
 	return (0);
 }
