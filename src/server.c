@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/20 19:56:12 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 20:51:19 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ static void	init_char(void)
 	return ;
 }
 
-static void	receive_bit(int signum, siginfo_t *info, void *context)
+static void	receive_bit(int signum)
 {
-	(void)context;
 	if (signum == SIGUSR1)
 		g_char.parts |= 1 << g_char.current_bit;
+	else if (signum == SIGUSR2)
+		g_char.parts &= ~(1 << g_char.current_bit);
 	g_char.current_bit++;
 	if (g_char.current_bit == 8)
 	{
 		ft_putchar_fd(g_char.parts, 1);
 		init_char();
 	}
-	kill(info->si_pid, SIGUSR1);
 	return ;
 }
 
@@ -54,11 +54,14 @@ static void	receive_msg(void)
 
 	init_char();
 	ft_bzero(&s_sa, sizeof(struct sigaction));
-	s_sa.sa_sigaction = receive_bit;
+	s_sa.sa_handler = receive_bit;
 	sigemptyset(&s_sa.sa_mask);
-	s_sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &s_sa, NULL);
-	sigaction(SIGUSR2, &s_sa, NULL);
+	sigaddset(&s_sa.sa_mask, SIGUSR1);
+	sigaddset(&s_sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &s_sa, NULL) == -1)
+		exit(EXIT_FAILURE);
+	if (sigaction(SIGUSR2, &s_sa, NULL) == -1)
+		exit(EXIT_FAILURE);
 	// signal(SIGUSR1, receive_bit);
 	// signal(SIGUSR2, receive_bit);
 	while (1)
