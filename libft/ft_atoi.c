@@ -6,13 +6,15 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 10:57:14 by minabe            #+#    #+#             */
-/*   Updated: 2022/10/14 09:48:20 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/20 23:31:17 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "./ft_printf/ft_printf.h"
 
 static int	check_sign(const char *str, size_t *i);
+static void	error(char *str);
 
 int	ft_atoi(const char *str)
 {
@@ -25,8 +27,10 @@ int	ft_atoi(const char *str)
 		i++;
 	sign = check_sign(str, &i);
 	nbr = 0;
-	while (ft_isdigit(str[i]))
+	while (str[i] != '\0')
 	{
+		if (!ft_isdigit(str[i]))
+			error("Invalid PID.");
 		if ((nbr * 10 + (str[i] - '0')) / 10 != nbr)
 		{
 			if (sign == 1)
@@ -53,4 +57,11 @@ static int	check_sign(const char *str, size_t *i)
 		(*i)++;
 	}
 	return (sign);
+}
+
+static void	error(char *str)
+{
+	ft_printf("%s\n", str);
+	exit(1);
+	return ;
 }
