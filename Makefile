@@ -47,7 +47,7 @@ fclean: clean
 
 re: fclean all
 
-debug: CFLAGS += -g -fsanitize=address,leak
+debug: CFLAGS += -g
 debug: re
 
 norm:
