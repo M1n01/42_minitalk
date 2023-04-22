@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 14:40:30 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/22 15:36:22 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 #include "../libft/ft_printf/ft_printf.h"
 
 static void	send_msg(pid_t my_pid, char *msg);
-static void	error(char *str);
 
 int	main(int ac, char *av[])
 {
 	pid_t	my_pid;
 
 	if (ac != 3)
-		error("Usage: ./client [server-pid] [message]");
+		ft_error("Usage: ./client [server-pid] [message]");
 	my_pid = ft_atoi(av[1]);
 	if (my_pid < 100 || 99998 < my_pid)
-		error("Invalid PID. Please enter a number between 100 and 99998.");
+		ft_error("Invalid PID. Please enter a number between 100 and 99998.");
 	send_msg(my_pid, av[2]);
 	return (0);
 }
@@ -67,7 +66,7 @@ static void	send_char(pid_t my_pid, char c)
 		else
 			status = kill(my_pid, SIGUSR2);
 		if (status == -1)
-			error("Invalid PID.");
+			ft_error("Invalid PID.");
 		current_bit++;
 	}
 	return ;
@@ -83,12 +82,5 @@ static void	send_msg(pid_t my_pid, char *msg)
 		send_char(my_pid, msg[i]);
 		i++;
 	}
-	return ;
-}
-
-static void	error(char *str)
-{
-	ft_printf("%s\n", str);
-	exit(1);
 	return ;
 }

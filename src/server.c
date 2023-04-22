@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 14:39:47 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/22 15:51:36 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ unsigned char	decode_hamming(unsigned short encoded_data)
 		(encoded_data >> 2) ^ (encoded_data >> 1) ^ (encoded_data)) & 1) << 3;
 	if (error_bit)
 		encoded_data ^= 1 << (12 - error_bit);
-	decoded |= (encoded_data & 0b00100000000) >> 2;
+	decoded |= (encoded_data & 0b001000000000) >> 2;
 	decoded |= (encoded_data & 0b000011100000) >> 1;
 	decoded |= (encoded_data & 0b000000001111);
 	return (decoded);
@@ -85,7 +85,7 @@ static void	receive_msg(void)
 	sigaddset(&s_sa.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &s_sa, NULL) == -1 \
 		|| sigaction(SIGUSR2, &s_sa, NULL) == -1)
-		exit(EXIT_FAILURE);
+		ft_error("sigaction error\n");
 	while (1)
 		pause();
 }
