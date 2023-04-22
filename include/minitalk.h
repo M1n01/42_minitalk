@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:28:54 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/18 15:49:44 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/22 14:32:35 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 typedef struct s_char
 {
 	int				current_bit;
-	unsigned char	parts;
+	unsigned short	parts;
 }				t_char;
 
 #endif
