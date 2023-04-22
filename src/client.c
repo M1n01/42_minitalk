@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 15:36:22 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/22 16:10:29 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	send_char(pid_t my_pid, char c)
 	current_bit = 0;
 	while (current_bit < 12)
 	{
-		usleep(100);
+		usleep(10);
 		if (encoded & (1 << current_bit))
 			status = kill(my_pid, SIGUSR1);
 		else

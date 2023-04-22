@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 15:35:10 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/22 17:41:45 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 static int	g_ack;
 
 static void	send_msg(pid_t my_pid, char *msg);
-static void	error(char *str);
 
 int	main(int ac, char *av[])
 {
