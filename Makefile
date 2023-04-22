@@ -40,7 +40,7 @@ $(CLIENT): $(CLIENT_OBJ)
 
 clean:
 		$(MAKE) clean -C $(LIBFTDIR)
-		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) $(B_SERVER_OBJ) $(B_CLIENT_OBJ)
+		$(RM) $(OBJS) $(SERVER_OBJ) $(CLIENT_OBJ) ./bonus/server_bonus.o ./bonus/client_bonus.o
 
 fclean: clean
 		$(RM) $(SERVER) $(CLIENT)
