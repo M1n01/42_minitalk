@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 19:46:07 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/23 12:46:08 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	receive_bit(int signum)
 	if (signum == SIGUSR1)
 		g_char.parts |= 1 << g_char.current_bit;
 	g_char.current_bit++;
-	if (g_char.current_bit == 12)
+	if (g_char.current_bit == 8)
 	{
 		ft_putchar_fd(g_char.parts, 1);
 		init_char();
@@ -51,7 +51,7 @@ static void	receive_msg(void)
 	init_char();
 	if (signal(SIGUSR1, receive_bit) == SIG_ERR \
 		|| signal(SIGUSR2, receive_bit) == SIG_ERR)
-		ft_error("signal error\n");
+		ft_error("signal error");
 	while (1)
 		pause();
 }

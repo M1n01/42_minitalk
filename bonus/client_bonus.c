@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 19:40:01 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/23 12:45:52 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	send_char(pid_t my_pid, char c)
 
 	uc = (unsigned char)c;
 	current_bit = 0;
-	while (current_bit < 12)
+	while (current_bit < 8)
 	{
 		usleep(10);
 		if (uc & (1 << current_bit))

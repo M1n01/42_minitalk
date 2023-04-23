@@ -6,15 +6,16 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 15:39:12 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/23 15:52:47 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "libft.h"
 
 void	ft_error(char *str)
 {
 	ft_putstr_fd(str, 1);
+	ft_putchar_fd('\n', 1);
 	exit(1);
 	return ;
 }
