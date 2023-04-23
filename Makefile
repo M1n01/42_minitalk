@@ -20,17 +20,9 @@ INC = $(INCDIR)/minitalk.h
 LIBFTDIR = ./libft
 LIBFT = $(LIBFTDIR)/libft.a
 
-ifdef WITH_BONUS
-	SERVER_SRC = ./bonus/server_bonus.c
-	CLIENT_SRC = ./bonus/client_bonus.c
-endif
-
 all: $(NAME)
 
 $(NAME): $(SERVER) $(CLIENT)
-
-bonus:
-		$(MAKE) WITH_BONUS=1
 
 $(SERVER): $(SERVER_OBJ) $(LIBFT)
 		$(CC) $(CFLAGS) -o $(SERVER) $(addprefix -I,$(INC))  $(SERVER_OBJ) $(LIBFT)
