@@ -6,25 +6,18 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/26 20:02:20 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 08:00:07 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 #include "../include/libft.h"
-#include "../libft/ft_printf/ft_printf.h"
 
+pid_t	client_pid;
 t_char	g_char;
 
-static void	init_char(void);
-static void	receive_msg(void);
-
-int	main(void)
-{
-	ft_printf("%d\n", getpid());
-	receive_msg();
-	return (0);
-}
+void	receive_bit(int signum);
+void	receive_pid(void);
 
 static void	init_char(void)
 {
@@ -33,37 +26,34 @@ static void	init_char(void)
 	return ;
 }
 
-static void	receive_bit(int signum)
+int	main(void)
 {
-	static size_t	sig1_count;
-	static size_t	sig2_count;
+	pid_t	server_pid;
 
-	if (signum == SIGUSR1)
-		sig1_count++;
-	else
-		sig2_count++;
-	if (sig1_count + sig2_count == 3)
-	{
-		if (sig1_count > sig2_count)
-			g_char.parts |= 1 << g_char.current_bit;
-		g_char.current_bit++;
-		if (g_char.current_bit == 8)
-		{
-			ft_putchar_fd(g_char.parts, 1);
-			init_char();
-		}
-		sig2_count = 0;
-		sig1_count = 0;
-	}
-	return ;
+	init_char();
+	server_pid = getpid();
+	ft_printf("%d\n", server_pid);
+	receive_pid();
+	return (0);
 }
 
-static void	receive_msg(void)
+void	receive_bit(int signum)
 {
-	init_char();
-	if (signal(SIGUSR1, receive_bit) == SIG_ERR \
-		|| signal(SIGUSR2, receive_bit) == SIG_ERR)
-		ft_error("signal error");
-	while (1)
+	if (signum == SIGUSR1)
+		client_pid |= 1 << g_char.current_bit;
+	else if (signum == SIGUSR2)
+		client_pid &= ~(1 << g_char.current_bit);
+	g_char.current_bit++;
+	if (g_char.current_bit == 32)
+	{
+		ft_printf("client_pid: %d\n", client_pid);
+	}
+}
+
+void	receive_pid(void)
+{
+	signal(SIGUSR1, receive_bit);
+	signal(SIGUSR2, receive_bit);
+	while (g_char.current_bit < 32)
 		pause();
 }

@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:28:54 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/22 14:32:35 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 07:29:50 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include <sysexits.h>
 # define EOT 4
 
+#include <stdio.h>
+
 typedef struct s_char
 {
 	int				current_bit;
-	unsigned short	parts;
+	unsigned char	parts;
 }				t_char;
 
 #endif
