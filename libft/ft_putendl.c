@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 15:33:16 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/25 10:42:33 by minabe           ###   ########.fr       */
+/*   Created: 2022/05/19 17:18:24 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/25 11:12:07 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	ft_strlen(const char *s)
+ssize_t	ft_putendl(char *s)
 {
-	size_t	i;
+	ssize_t	size;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	size = ft_putstr(s);
+	size += write(1, "\n", 1);
+	return (size);
 }

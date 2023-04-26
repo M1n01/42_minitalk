@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:17:04 by minabe            #+#    #+#             */
-/*   Updated: 2022/10/04 13:51:16 by minabe           ###   ########.fr       */
+/*   Created: 2023/02/24 21:09:31 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/24 20:24:58 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../include/libft.h"
 
-int	ft_putchar(char c)
+void	*ft_realloc(void *p, size_t size)
 {
-	return (write(1, &c, 1));
+	void	*new_data;
+
+	new_data = NULL;
+	if (size == 0)
+		return (NULL);
+	new_data = malloc(size);
+	if (new_data == NULL)
+		exit(1);
+	if (p != NULL)
+	{
+		ft_memcpy(new_data, p, size);
+		free(p);
+	}
+	return (new_data);
 }

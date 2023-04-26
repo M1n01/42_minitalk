@@ -14,11 +14,24 @@ SERVER_OBJ = $(SERVER_SRC:%.c=%.o)
 CLIENT_SRC = $(SRCDIR)/client.c
 CLIENT_OBJ = $(CLIENT_SRC:%.c=%.o)
 
+# BONUSDIR = ./bonus
+
+# B_SERVER_SRC = $(BONUSDIR)/server_bonus.c
+# B_SERVER_OBJ = $(B_SERVER_SRC:%.c=%.o)
+
+# B_CLIENT_SRC = $(BONUSDIR)/client_bonus.c
+# B_CLIENT_OBJ = $(B_CLIENT_SRC:%.c=%.o)
+
 INCDIR = ./include
 INC = $(INCDIR)/minitalk.h
 
 LIBFTDIR = ./libft
 LIBFT = $(LIBFTDIR)/libft.a
+
+# ifdef WITH_BONUS == 1
+# 	SERVER_SRC = $(B_SERVER_SRC)
+# 	CLIENT_SRC = $(B_CLIENT_SRC)
+# endif
 
 all: $(NAME)
 
@@ -35,7 +48,8 @@ $(LIBFT):
 
 clean:
 		$(MAKE) fclean -C $(LIBFTDIR)
-		$(RM) $(SERVER_OBJ) $(CLIENT_OBJ)
+		$(RM) $(SERVER_OBJ) $(CLIENT_OBJ) 
+# $(B_SERVER_OBJ) $(B_CLIENT_OBJ)
 
 fclean: clean
 		$(RM) $(SERVER) $(CLIENT)

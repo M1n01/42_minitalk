@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/26 20:02:20 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/23 12:45:46 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
-#include "../include/libft.h"
+#include "../include/minitalk_bonus.h"
+#include "../libft/libft.h"
 #include "../libft/ft_printf/ft_printf.h"
 
 t_char	g_char;
@@ -33,37 +33,40 @@ static void	init_char(void)
 	return ;
 }
 
-static void	receive_bit(int signum)
+static void	receive_bit(int signum, siginfo_t *info, void *context)
 {
-	static size_t	sig1_count;
-	static size_t	sig2_count;
-
+	(void)context;
 	if (signum == SIGUSR1)
-		sig1_count++;
-	else
-		sig2_count++;
-	if (sig1_count + sig2_count == 3)
+		g_char.parts |= 1 << g_char.current_bit;
+	else if (signum == SIGUSR2)
+		g_char.parts &= ~(1 << g_char.current_bit);
+	g_char.current_bit++;
+	if (g_char.current_bit == 8)
 	{
-		if (sig1_count > sig2_count)
-			g_char.parts |= 1 << g_char.current_bit;
-		g_char.current_bit++;
-		if (g_char.current_bit == 8)
-		{
-			ft_putchar_fd(g_char.parts, 1);
-			init_char();
-		}
-		sig2_count = 0;
-		sig1_count = 0;
+		ft_putchar_fd(g_char.parts, 1);
+		init_char();
 	}
+	usleep(10);
+	if (info->si_pid > 0)
+		kill(info->si_pid, SIGUSR1);
+	else
+		ft_error("pid error\n");
 	return ;
 }
 
 static void	receive_msg(void)
 {
+	struct sigaction	s_sa;
+
 	init_char();
-	if (signal(SIGUSR1, receive_bit) == SIG_ERR \
-		|| signal(SIGUSR2, receive_bit) == SIG_ERR)
-		ft_error("signal error");
+	ft_bzero(&s_sa, sizeof(struct sigaction));
+	s_sa.sa_flags = SA_SIGINFO;
+	s_sa.sa_sigaction = receive_bit;
+	sigaddset(&s_sa.sa_mask, SIGUSR1);
+	sigaddset(&s_sa.sa_mask, SIGUSR2);
+	if (sigaction(SIGUSR1, &s_sa, NULL) == -1 || \
+		sigaction(SIGUSR2, &s_sa, NULL) == -1)
+		ft_error("sigaction error\n");
 	while (1)
 		pause();
 }

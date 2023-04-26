@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strnlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 15:33:16 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/25 10:42:33 by minabe           ###   ########.fr       */
+/*   Created: 2023/04/25 11:15:51 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/25 11:16:05 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strnlen(char *str, size_t size)
 {
-	size_t	i;
+	char	*p;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	p = ft_memchr(str, 0, size);
+	if (p == NULL)
+		return (size);
+	else
+		return (p - str);
 }

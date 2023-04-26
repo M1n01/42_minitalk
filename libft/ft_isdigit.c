@@ -6,15 +6,15 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 15:43:38 by minabe            #+#    #+#             */
-/*   Updated: 2022/06/04 10:08:00 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/25 11:07:10 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
-int	ft_isdigit(int c)
+bool	ft_isdigit(int c)
 {
 	if ('0' <= c && c <= '9')
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }

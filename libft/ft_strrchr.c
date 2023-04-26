@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 15:33:16 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/25 10:42:33 by minabe           ###   ########.fr       */
+/*   Created: 2022/04/09 11:28:30 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/25 11:19:10 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t	i;
+	ssize_t	i;
+	size_t	len;
+	char	*str;
+	char	to_find;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	str = (char *)s;
+	to_find = (char)c;
+	len = ft_strlen(str);
+	if (to_find == '\0')
+		return (str + len);
+	i = len;
+	while (i >= 0)
+	{
+		if (s[i] == to_find)
+			return (str + i);
+		i--;
+	}
+	return (NULL);
 }

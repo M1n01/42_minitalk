@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                     :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/19 17:19:01 by minabe            #+#    #+#             */
-/*   Updated: 2022/06/07 12:37:09 by minabe           ###   ########.fr       */
+/*   Created: 2023/02/21 23:45:56 by minabe            #+#    #+#             */
+/*   Updated: 2023/02/21 23:58:44 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../include/libft.h"
 
-int	ft_putnbr(long long n)
+char	*ft_strchr(const char *s, int c)
 {
-	int	res;
+	size_t	i;
+	char	*str;
+	char	to_find;
 
-	res = 0;
-	if (n == INT_MIN)
+	if (s == NULL)
+		return (NULL);
+	str = (char *)s;
+	to_find = (char)c;
+	i = 0;
+	if (to_find == '\0')
 	{
-		n /= 10;
-		res += ft_putnbr(n);
-		res += ft_putchar('8');
-		return (res);
+		while (s[i] != '\0')
+			i++;
+		return (str + i);
 	}
-	if (n < 0)
+	while (s[i] != '\0')
 	{
-		res += ft_putchar('-');
-		n *= -1;
-		res += ft_putnbr(n);
-		return (res);
+		if (s[i] == to_find)
+			return (str + i);
+		i++;
 	}
-	if (n < 10)
-	{
-		res += ft_putchar(n + '0');
-		return (res);
-	}
-	res += ft_putnbr(n / 10);
-	res += ft_putchar(n % 10 + '0');
-	return (res);
+	return (NULL);
 }

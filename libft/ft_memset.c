@@ -6,11 +6,11 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:10:06 by minabe            #+#    #+#             */
-/*   Updated: 2022/06/16 16:35:15 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/25 10:43:14 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/libft.h"
 
 void	*ft_memset(void *buf, int ch, size_t n)
 {

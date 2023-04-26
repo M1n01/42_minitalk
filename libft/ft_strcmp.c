@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 15:33:16 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/25 10:42:33 by minabe           ###   ########.fr       */
+/*   Created: 2023/02/20 17:09:35 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/24 20:25:32 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strcmp(char *str1, char *str2)
 {
 	size_t	i;
+	size_t	len;
 
+	if (ft_strlen(str1) < ft_strlen(str2))
+		len = ft_strlen(str1);
+	else
+		len = ft_strlen(str2);
 	i = 0;
-	while (s[i])
+	while (i < len)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
 		i++;
-	return (i);
+	}
+	return (0);
 }

@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 15:33:16 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/25 10:42:33 by minabe           ###   ########.fr       */
+/*   Created: 2022/10/04 13:28:54 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/22 14:51:21 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
+# include <signal.h>
+# include <sys/types.h>
+# include <stdlib.h>
+# include <sysexits.h>
+# define EOT 4
 
-size_t	ft_strlen(const char *s)
+typedef struct s_char
 {
-	size_t	i;
+	int				current_bit;
+	unsigned short	parts;
+}				t_char;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+#endif

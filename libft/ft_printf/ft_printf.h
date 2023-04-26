@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:09:28 by minabe            #+#    #+#             */
-/*   Updated: 2022/06/23 22:56:47 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/25 10:43:28 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 # include <stdarg.h>
 # include <limits.h>
 # include <unistd.h>
+# include <../../include/libft.h>
 
 int	ft_printf(const char *format, ...);
 int	putnbr_hex(unsigned long long nbr, char conv);
 int	put_str(char *s);
 int	put_ptr(unsigned long long ptr);
-int	ft_putchar(char c);
-int	ft_putnbr(long long n);
 
 #endif
