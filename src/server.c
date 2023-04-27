@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 09:14:34 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 09:27:47 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(void)
 	{
 		client_pid = 0;
 		receive_pid();
+		printf("client_pid: %d\n", client_pid);
 		receive_msg();
 	}
 	return (0);
@@ -49,9 +50,7 @@ static void	receive_bit(int signum)
 		client_pid &= ~(1 << g_char.current_bit);
 	g_char.current_bit++;
 	if (g_char.current_bit == 32)
-	{
-		ft_printf("client_pid: %d\n", client_pid);
-	}
+		return ;
 }
 
 static void	receive_pid(void)
