@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 12:06:27 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 12:38:24 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	send_pid(pid_t server_pid, pid_t client_pid)
 	i = 0;
 	while (i < 32)
 	{
-		usleep(700);
+		usleep(100);
 		if (client_pid & (1 << i))
 			status = kill(server_pid, SIGUSR1);
 		else
@@ -63,7 +63,7 @@ static void	send_char(pid_t my_pid, char c)
 	current_bit = 0;
 	while (current_bit < 8)
 	{
-		usleep(700);
+		usleep(1000);
 		if (uc & (1 << current_bit))
 			status = kill(my_pid, SIGUSR1);
 		else
@@ -100,6 +100,6 @@ static void	send_msg(pid_t my_pid, char *msg)
 		send_char(my_pid, msg[i]);
 		i++;
 	}
-	send_char(my_pid, 4);
+	send_char(my_pid, EOT);
 	return ;
 }

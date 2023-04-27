@@ -2,7 +2,7 @@ NAME = libft.a
 
 CC = cc
 INCDIR = -I./ft_printf  -I./
-CFLAGS = -Wall -Wextra -Werror $(INCDIR)
+CFLAGS = -Wall -Wextra -Werror $(addprefix -I,$(INCDIR))
 
 SRCDIR = ./ft_printf ./
 
