@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 09:11:30 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 09:14:34 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(void)
 	while (true)
 	{
 		client_pid = 0;
-		init_char();
 		receive_pid();
 		receive_msg();
 	}
@@ -87,10 +86,5 @@ static void	receive_msg(void)
 	signal(SIGUSR1, receive_char);
 	signal(SIGUSR2, receive_char);
 	while (g_char.current_bit != 8 || g_char.parts != 4)
-	// while (1)
-	{
-		// if (g_char.current_bit == 8 && g_char.parts == 4)
-		// 	break ;
 		pause();
-	}
 }
