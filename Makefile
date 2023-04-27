@@ -17,7 +17,8 @@ CLIENT_OBJ	=	$(CLIENT_SRC:%.c=%.o)
 
 BONUSDIR	=	./bonus
 
-B_SERVER_SRC	=	$(BONUSDIR)/server_bonus.c
+B_SERVER_SRC	=	$(BONUSDIR)/server_bonus.c \
+					$(BONUSDIR)/server_utils_bonus.c
 B_SERVER_OBJ	=	$(B_SERVER_SRC:%.c=%.o)
 
 B_CLIENT_SRC	=	$(BONUSDIR)/client_bonus.c
