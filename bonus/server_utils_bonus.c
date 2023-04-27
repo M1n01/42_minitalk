@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:29:49 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 15:33:09 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 16:17:17 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	receive_char(int signum)
 	status = kill(g_server.client_pid, SIGUSR1);
 	if (status == -1)
 		ft_error("kill error\n");
+	usleep(10);
 	return ;
 }
 
