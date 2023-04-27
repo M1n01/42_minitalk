@@ -1,30 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   server_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 13:28:54 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 12:03:53 by minabe           ###   ########.fr       */
+/*   Created: 2023/04/27 11:29:49 by minabe            #+#    #+#             */
+/*   Updated: 2023/04/27 12:04:08 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# include <signal.h>
-# include <sys/types.h>
-# include <stdlib.h>
-# include <sysexits.h>
-# define EOT 4
+#include "../include/minitalk.h"
+#include "../include/libft.h"
 
-#include <stdio.h>
-
-typedef struct s_server
-{
-	int		current_bit;
-	int		binary;
-	pid_t	client_pid;
-}				t_server;
-
-#endif

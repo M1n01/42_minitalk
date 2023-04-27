@@ -6,25 +6,17 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:23 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 09:27:47 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 12:04:35 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 #include "../include/libft.h"
 
-pid_t	client_pid;
-t_char	g_char;
+t_server	g_server;
 
 static void	receive_pid(void);
 static void	receive_msg(void);
-
-static void	init_char(void)
-{
-	g_char.current_bit = 0;
-	g_char.parts = 0;
-	return ;
-}
 
 int	main(void)
 {
@@ -34,56 +26,77 @@ int	main(void)
 	ft_printf("%d\n", server_pid);
 	while (true)
 	{
-		client_pid = 0;
 		receive_pid();
-		printf("client_pid: %d\n", client_pid);
 		receive_msg();
 	}
 	return (0);
 }
 
+static void	init_char(void)
+{
+	g_server.current_bit = 0;
+	g_server.binary = 0;
+	return ;
+}
+
 static void	receive_bit(int signum)
 {
 	if (signum == SIGUSR1)
-		client_pid |= 1 << g_char.current_bit;
+		g_server.binary |= 1 << g_server.current_bit;
 	else if (signum == SIGUSR2)
-		client_pid &= ~(1 << g_char.current_bit);
-	g_char.current_bit++;
-	if (g_char.current_bit == 32)
+		g_server.binary &= ~(1 << g_server.current_bit);
+	g_server.current_bit++;
+	if (g_server.current_bit == 32)
+	{
+		g_server.client_pid = g_server.binary;
 		return ;
+	}
 }
 
 static void	receive_pid(void)
 {
 	init_char();
+	g_server.client_pid = 0;
 	signal(SIGUSR1, receive_bit);
 	signal(SIGUSR2, receive_bit);
-	while (g_char.current_bit < 32)
+	while (g_server.current_bit < 32)
 		pause();
 }
 
 static void	receive_char(int signum)
 {
+	int	status;
+
 	if (signum == SIGUSR1)
-		g_char.parts |= 1 << g_char.current_bit;
+		g_server.binary |= 1 << g_server.current_bit;
 	else if (signum == SIGUSR2)
-		g_char.parts &= ~(1 << g_char.current_bit);
-	g_char.current_bit++;
-	if (g_char.current_bit == 8)
+		g_server.binary &= ~(1 << g_server.current_bit);
+	g_server.current_bit++;
+	if (g_server.current_bit == 8)
 	{
-		if (g_char.parts == 4)
+		if (g_server.binary == 4)
 			return ;
-		ft_putchar(g_char.parts);
+		ft_putchar((unsigned char)g_server.binary);
 		init_char();
 	}
+	usleep(100);
+	status = kill(g_server.client_pid, SIGUSR1);
+	if (status == -1)
+		ft_error("kill error\n");
 	return ;
 }
 
 static void	receive_msg(void)
 {
+	struct sigaction	s_sa;
+
 	init_char();
-	signal(SIGUSR1, receive_char);
-	signal(SIGUSR2, receive_char);
-	while (g_char.current_bit != 8 || g_char.parts != 4)
+	ft_bzero(&s_sa, sizeof(struct sigaction));
+	s_sa.sa_handler = receive_char;
+	s_sa.sa_flags = 0;
+	if (sigaction(SIGUSR1, &s_sa, NULL) == -1 || \
+		sigaction(SIGUSR2, &s_sa, NULL) == -1)
+		ft_error("sigaction error\n");
+	while (g_server.current_bit != 8 || g_server.binary != 4)
 		pause();
 }
