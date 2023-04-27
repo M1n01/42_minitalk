@@ -6,7 +6,7 @@
 /*   By: minabe <minabe@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:35:20 by minabe            #+#    #+#             */
-/*   Updated: 2023/04/27 08:23:27 by minabe           ###   ########.fr       */
+/*   Updated: 2023/04/27 08:48:20 by minabe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ static void	send_msg(pid_t my_pid, char *msg)
 		send_char(my_pid, msg[i]);
 		i++;
 	}
+	send_char(my_pid, 4);
 	return ;
 }
